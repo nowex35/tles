@@ -1,0 +1,23 @@
+# Python関連
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# 環境用ファイル
+*.env
+*.log
+
+# SQLite3データベースファイル
+db.sqlite3
+
+# 静的ファイルの生成物
+/staticfiles/
+/media/
+
+# IDE関連（必要に応じて削除）
+.idea/
+.vscode/
+
+# 仮想環境関連
+venv/
