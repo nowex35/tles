@@ -1,6 +1,30 @@
 {% extends 'webapp/base.html' %}
+{% load static %}
+{% block title %}カテゴリー | TLES{% endblock %}
 {% block content %}
-  <div class="bg-primary text-white">
-    {{text}}
-  </div>
-{% endblock content %}
+    <h2>カテゴリー</h2>
+    <!-- フィルターボタン -->
+    <div class="filter-options">
+        <form method="get" action="{% url 'webapp:category' %}">
+            <label for="filter">Filter:</label>
+            <select name="filter" id="filter">
+                <option value="all" {% if filter_option == 'all' %}selected{% endif %}>All</option>
+                <option value="same_dates" {% if filter_option == 'same_dates' %}selected{% endif %}>result only</option>
+            </select>
+                <button type="submit">Apply</button>
+        </form>
+    </div>
+
+    {% if graph_paths %}
+        <div class="image-gallery">
+            {% for path in graph_paths %}
+                <div class="image-item image-pie">
+                    <img src="{{ path }}" alt="Category Graph">
+                    <a>{{ path }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No category graphs available.</p>
+    {% endif %}
+{% endblock %}

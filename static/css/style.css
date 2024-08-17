@@ -1,0 +1,126 @@
+html, body {
+    height: 100%; /* HTMLとBODYの高さを100%に設定 */
+    margin: 0; /* デフォルトのマージンをリセット */
+    padding: 0; /* デフォルトのパディングをリセット */
+}
+.navbar {
+    background-color: #5fc2c5; /* ナビゲーションバーの背景色 */
+    z-index: 1000; /* ナビゲーションバーが上に表示されるようにする */
+    position: relative;
+}
+.sidebar {
+    background-color: #0f3041; /* サイドバーの背景色 */
+    height: 100vh;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.sidebar a {
+    color: #ffffff; /* サイドバーのリンクの文字色 */
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 0.9rem; /* フォントサイズを少し小さくしてリンクをよりスマートに */
+}
+.sidebar a:hover {
+    background-color: #173d4f; /* ホバー時のリンクの背景色 */
+}
+.content {
+    padding: 20px;
+    background-color: #e5e8ef; /* コンテンツエリアの背景色 */
+}
+
+.event_container {
+    display: flex;
+    justify-content: flex-start; /* イベント間のスペースを均等に配置 */
+    flex-wrap: wrap; /* イベントが横に並ぶように折り返す */
+    gap: 20px; /* 各イベント間のスペース */
+}
+
+.event {
+    background-color: #f4f4f4; /* イベントの背景色 */
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 18%; /* それぞれのイベントの幅 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 要素を上下に分けて配置 */
+    overflow: hidden; /* ボックスからはみ出る部分を隠す */
+}
+
+.event-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain; 
+}
+
+.event-details {
+    padding: 20px;
+    background-color: #f4f4f4; /* イベントの背景色 */
+    flex-grow: 1; /* 残りのスペースをこの要素が占めるように */
+}
+
+.event-details p {
+    margin: 5px 0; /* 上下の余白を5pxに設定 */
+    padding: 0; /* 余計なパディングを削除 */
+    line-height: 1.2; /* 行間を少し詰める */
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 左詰めに配置する */
+    margin: 0;
+}
+
+.image-item-bar {
+    display: flex;
+    margin: 10px; /* 画像間の余白 */
+    box-sizing: border-box; /* パディングとボーダーを含めてサイズを計算 */
+    align-items: center; /* 画像を縦方向にも中央揃え */
+    justify-content: center; /* 画像を中央揃え */
+    width: 40%; /* 画像アイテムの幅を30%に設定して3列配置 */
+    max-width: 700px; /* 最大幅を300pxに制限 */
+    flex-direction: column;
+}
+.image-item {
+    display: flex;
+    margin: 10px; /* 画像間の余白 */
+    box-sizing: border-box; /* パディングとボーダーを含めてサイズを計算 */
+    align-items: center; /* 画像を縦方向にも中央揃え */
+    justify-content: center; /* 画像を中央揃え */
+    width: 40%; /* 画像アイテムの幅を30%に設定して3列配置 */
+    flex-direction: column;
+}
+
+.image-bar {
+    max-width: 700px;
+}
+.image-pie {
+    max-width: 500px;
+}
+
+.image-item img {
+    max-width: 100%; /* 親要素の幅に合わせてリサイズ */
+    height: 100%; /* アスペクト比を維持して高さを調整 */
+}
+
+.image-item-inDetail {
+    display: flex;
+    margin: 10px; /* 画像間の余白 */
+    box-sizing: border-box; /* パディングとボーダーを含めてサイズを計算 */
+    align-items: center; /* 画像を縦方向にも中央揃え */
+    justify-content: center; /* 画像を中央揃え */
+    width: 40%; /* 画像アイテムの幅を30%に設定して3列配置 */
+    flex-direction: column;
+}
+
+.image-item-inDetail img {
+    max-width: 100%; /* 親要素の幅に合わせてリサイズ */
+    height: auto; /* アスペクト比を維持して高さを調整 */
+}
+
+.no-underline {
+    text-decoration: none;
+    color: #0f3041;
+}

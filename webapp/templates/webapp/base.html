@@ -1,70 +1,59 @@
+{% load static%}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TSUKUBA LIVE{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #e5e8ef; /* 背景色 */
-        }
-        .navbar {
-            background-color: #5fc2c5; /* ナビゲーションバーの背景色 */
-            z-index: 1000; /* ナビゲーションバーが上に表示されるようにする */
-            position: relative;
-        }
-        .sidebar {
-            background-color: #0f3041; /* サイドバーの背景色 */
-            height: 100vh;
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-        .sidebar a {
-            color: #ffffff; /* サイドバーのリンクの文字色 */
-            display: block;
-            padding: 5px;
-            text-decoration: none;
-            font-size: 0.9rem; /* フォントサイズを少し小さくしてリンクをよりスマートに */
-        }
-        .sidebar a:hover {
-            background-color: #173d4f; /* ホバー時のリンクの背景色 */
-        }
-        .content {
-            padding: 20px;
-            background-color: #e5e8ef; /* コンテンツエリアの背景色 */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
     <!-- ナビゲーションバー -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">TSUKUBA LIVE</a>
+            <a class="navbar-brand" href="/" style="font-size: 40px; font-weight: bold;">TL! EYE SYSTEM</a>
         </div>
+        <ul style="display: flex; gap: 15px; list-style-type: none; padding-left: 0;">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_logout' %}" style="white-space: nowrap;">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link {% block active_signup %}{% endblock %}" href="{% url 'account_signup' %}" style="white-space: nowrap;">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% block active_login %}{% endblock %}" href="{% url 'account_login' %}" style="white-space: nowrap;">Log In</a>
+            </li>
+            {% endif %}
+        </ul>
     </nav>
 
     <div class="container-fluid">
         <div class="row">
             <!-- サイドバー -->
-            <div class="col-md-2 sidebar">
-                <h4 class="text-white">customer info</h4>
-                <a href="{% url 'webapp:day_sales' %}">day sales</a>
-                <a href="{% url 'webapp:grade' %}">grade</a>
-                <a href="{% url 'webapp:category' %}">category</a>
-                <a href="{% url 'webapp:past_visits' %}">past visits</a>
-                <a href="{% url 'webapp:play_sports' %}">play sports</a>
-                <a href="{% url 'webapp:watch_sports' %}">watch sports</a>
-                <a href="{% url 'webapp:coupon' %}">coupon</a>
-                <a href="{% url 'webapp:reasons' %}">reasons</a>
-                <h4 class="text-white">data handling</h4>
-                <a href="{% url 'webapp:past_events' %}">past events</a>
-                <a href="{% url 'webapp:new_event' %}">new event</a>
+            <div class="col-sm-1 sidebar d-flex flex-column" style="width: 12.5%;">
+                <h4 class="text-white" style="margin:10px;">グラフ</h4>
+                <a href="{% url 'webapp:day_sales' %}">チケット売上</a>
+                <a href="{% url 'webapp:grade' %}">学年</a>
+                <a href="{% url 'webapp:category' %}">カテゴリー</a>
+                <a href="{% url 'webapp:gender' %}">性別</a>
+                <a href="{% url 'webapp:past_visits' %}">来場回数</a>
+                <a href="{% url 'webapp:play_sports' %}">スポーツ実施頻度</a>
+                <a href="{% url 'webapp:watch_sports' %}">スポーツ観戦頻度</a>
+                <a href="{% url 'webapp:coupon' %}">クーポン</a>
+                <a href="{% url 'webapp:reasons' %}">流入経路</a>
+                <a href="{% url 'webapp:reasons_percent' %}">流入経路割合</a>
+                <h4 class="text-white" style="margin:10px;">データ</h4>
+                <a href="{% url 'webapp:past_events' %}">過去のイベント</a>
+                <a href="{% url 'webapp:new_event' %}">データ追加</a>
             </div>
 
             <!-- コンテンツエリア -->
-            <div class="col-md-10 content">
+            <div class="col-sm-1 content" style="width: 87.5%;">
                 {% block content %}{% endblock %}
             </div>
         </div>

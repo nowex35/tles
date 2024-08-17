@@ -1,6 +1,29 @@
 {% extends 'webapp/base.html' %}
+{% load static %}
+{% block title %}スポーツ観戦頻度 | TLES{% endblock %}
 {% block content %}
-  <div class="bg-primary text-white">
-    {{text}}
-  </div>
-{% endblock content %}
+    <h2>スポーツ観戦頻度</h2>
+    <!-- フィルターボタン -->
+    <div class="filter-options">
+        <form method="get" action="{% url 'webapp:watch_sports' %}">
+            <label for="filter">Filter:</label>
+            <select name="filter" id="filter">
+                <option value="all" {% if filter_option == 'all' %}selected{% endif %}>All</option>
+                <option value="same_dates" {% if filter_option == 'same_dates' %}selected{% endif %}>result only</option>
+            </select>
+                <button type="submit">Apply</button>
+        </form>
+    </div>
+    {% if graph_paths %}
+        <div class="image-gallery">
+            {% for path in graph_paths %}
+                <div class="image-item image-pie">
+                    <img src="{{ path }}" alt="watch_sports Graph">
+                    <a>{{ path }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No watch_sports graphs available.</p>
+    {% endif %}
+{% endblock %}

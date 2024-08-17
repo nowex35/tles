@@ -1,0 +1,195 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+
+{% block title %}試合詳細{% endblock %}
+
+{% block active_event_list %}active{% endblock %}
+
+{% block content %}
+<h1 class="text-primary">{{ event.name }}</h1>
+    
+<div class="row">
+  <div class="col-md-6">
+    {% if event.event_image %}
+      <img src="{{ event.event_image.url }}" alt="Event Image" class="img-fluid mb-3">
+    {% else %}
+      <img src="{% static 'images/default_event.jpg' %}" alt="Default Event Image" class="img-fluid mb-3">
+    {% endif %}
+  </div>
+  
+  <div class="col-md-6">
+    <p><strong>イベントID:</strong> {{ event.event_id }}</p>
+    <p><strong>チーム名:</strong> {{ event.team_name|default:"未設定" }}</p>
+    <p><strong>対戦相手:</strong> {{ event.opponent_team|default:"未設定" }}</p>
+    <p><strong>試合日:</strong> {{ event.game_date|date:"Y年m月d日" }}</p>
+    <p><strong>開演時間:</strong> {{ event.opening_time|time:"H:i" }}</p>
+    <p><strong>開催場所:</strong> {{ event.event_place|default:"未設定" }}</p>
+    <p><strong>チケット発売日:</strong> {{ event.release_date|date:"Y年m月d日" }}</p>
+    <p><strong>データバージョン日:</strong> {{ event.data_version_date|date:"Y年m月d日" }}</p>
+    <p><strong>観客数:</strong> {{ event.number_of_spectators|default:"0" }}人</p>
+    <p><strong>存在データID:</strong> {{ event.existing_data_id|default:"未設定" }}</p>
+    <p><strong>ユーザー:</strong> {{ event.user.username }}</p>
+    <p><strong>作成日:</strong> {{ event.created_at|date:"Y年m月d日 H:i" }}</p>
+    <p><strong>更新日:</strong> {{ event.updated_at|date:"Y年m月d日 H:i" }}</p>
+  </div>
+</div>
+
+<div class="mt-4">
+  <h4>イベント詳細</h4>
+  <p>{{ event.description|default:"詳細情報がありません。" }}</p>
+</div>
+
+<div>
+    <h2>Graphs</h2>
+    {% if graph_paths %}
+        
+        <h4>day_sales_graph</h4>
+        <div class="image-gallery">
+            {% if has_day_sales %}
+                {% for path in graph_paths %}
+                    {% if "day_sales" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No day_sales graphs available.</p>
+            {% endif %}
+        </div>
+        
+        <h4>grade_graph</h4>
+        <div class="image-gallery">
+            {% if has_grade %}
+                {% for path in graph_paths %}
+                    {% if "grade" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No grade graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>category_graph</h4>
+        <div class="image-gallery">
+            {% if has_category %}
+                {% for path in graph_paths %}
+                    {% if "category" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No category graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>pastVisits_graph</h4>
+        <div class="image-gallery">
+            {% if has_past_visits %}
+                {% for path in graph_paths %}
+                    {% if "PastVisits" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No past_visits graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>PlaySports_graph</h4>
+        <div class="image-gallery">
+            {% if has_play_sports %}
+                {% for path in graph_paths %}
+                    {% if "playSports" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No playSports graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>WatchSports_graph</h4>
+        <div class="image-gallery">
+            {% if has_watch_sports %}
+                {% for path in graph_paths %}
+                    {% if "watchSports" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No watchSports graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>reasons_graph</h4>
+        <div class="image-gallery">
+            {% if has_reasons %}
+                {% for path in graph_paths %}
+                    {% if "reasons" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No reasons graphs available.</p>
+            {% endif %}
+        </div>
+
+        <h4>Ticket_graph</h4>
+        <div class="image-gallery">
+            {% if has_ticket %}
+                {% for path in graph_paths %}
+                    {% if "Ticket" in path %}
+                        <div class="image-item-inDetail">
+                            <img src="{{ path }}" alt="This Event Graph">
+                            <a>{{ path }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No Ticket graphs available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Othersグラフの出力 -->
+        <h4>Others</h4>
+        <div class="image-gallery">
+            {% for path in graph_paths %}
+                {% if not "day_sales" in path and not "grade" in path and not "category" in path and not "PastVisits" in path and not "playSports" in path and not "watchSports" in path and not "reasons" in path and not "Ticket" in path %}
+                    <div class="image-item-inDetail">
+                        <img src="{{ path }}" alt="This Event Graph">
+                        <a>{{ path }}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+    {% else %}
+        <p>No graphs available.</p>
+    {% endif %}
+</div>
+
+
+<a href="{% url 'webapp:past_events' %}" class="btn btn-secondary mt-3">イベント一覧に戻る</a>
+</div>
+{% endblock %}

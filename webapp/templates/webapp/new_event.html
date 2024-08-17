@@ -1,6 +1,54 @@
 {% extends 'webapp/base.html' %}
+{% block title %}データ追加 | TLES{% endblock %}
+{% load widget_tweaks %}
 {% block content %}
-  <div class="bg-primary text-white">
-    {{text}}
-  </div>
-{% endblock content %}
+<div class="container mt-4"><h2 class="mb-3">新しいイベントの作成</h2>
+
+    {% if success_message %}
+        <div class="alert alert-success alert-dismissible fade show"role="alert">
+            {{ success_message }}
+            <button type="button"class="btn-close"data-bs-dismiss="alert"aria-label="Close"></button></div>
+    {% endif %}
+
+    {% if error_message %}
+        <div class="alert alert-danger alert-dismissible fade show"role="alert">
+            {{ error_message }}
+            <button type="button"class="btn-close"data-bs-dismiss="alert"aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <form method="post"enctype="multipart/form-data"class="needs-validation"novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <h4 class="mb-2">CSVファイルのアップロード</h4>
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <h4 class="mb-2">イベント情報</h4>
+            <div class="form-group">
+                {% for field in event_form %}
+                    <div class="mb-2">
+                        {{ field.label_tag }} 
+                        {{ field|add_class:"form-control-sm" }}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="d-grid"><button type="submit" class="btn btn-primary">イベントを作成</button>
+        </div>
+    </form>
+
+    {% if data_preview %}
+        <div class="mt-4">
+            <h4 class="mb-2">データプレビュー</h4>
+            <div class="table-responsive">
+                {{ data_preview|safe }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

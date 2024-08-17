@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,8 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    "django_bootstrap5",
     "webapp.apps.WebappConfig",
+    #bootstrap5を追加
+    "django_bootstrap5",
+    #accountsアプリケーションを追加
+    "accounts.apps.AccountsConfig",
+    #django-allauth用の設定
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    
+    # その他のアプリケーション
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # 追加
 ]
 
 ROOT_URLCONF = 'tles.urls'
@@ -69,6 +82,37 @@ TEMPLATES = [
         },
     },
 ]
+
+#django-allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    #一般ユーザー用（メールアドレス認証）
+    "allauth.account.auth_backends.AuthenticationBackend",
+    #管理サイト用（ユーザー名認証）
+    "django.contrib.auth.backends.ModelBackend",
+)
+#メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_USERNAME_REQUIRED = True
+
+#サインアップにメールアドレス確認をはさむように設定
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_EMAIL_REQUIRED = False
+
+#ログイン/ログアウト後のリダイレクト先を設定
+LOGIN_REDIRECT_URL = "webapp:past_events"
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
+
+#ログアウトリンクのクリック一発でログアウトする設定
+ACCOUNT_LOGOUT_ON_GET = True
+
+#django-allauthが送信するメールの件名に自動付与される接頭辞をブランクに設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
+
+#django-allauthで利用するメール送信設定
+DEFAULT_FROM_EMAIL = os.environ.get("FROM_EMAIL")
+
 
 WSGI_APPLICATION = 'tles.wsgi.application'
 
@@ -120,6 +164,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -134,12 +182,17 @@ LOGGING = {
         # Djangoが利用するロガー
         'django': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'DEBUG', # INFOからDEBUGに変更
         },
         # diaryアプリケーションが利用するロガー
         'webapp': {
             'handlers': ['console'],
             'level': 'DEBUG',
+        },
+        'django.db.backends': {  # データベースクエリのログ
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
     #ハンドラーの設定
@@ -162,3 +215,10 @@ LOGGING = {
         },
     },
 }
+
+# メディアファイルの保存先
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# メディアファイルのURL
+MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
