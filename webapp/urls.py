@@ -9,6 +9,7 @@ urlpatterns = [
     path("grade/",views.grade,name="grade"),
     path("category/",views.category,name="category"),
     path("gender/",views.gender,name="gender"),
+    path("age/",views.age,name="age"),
     path("past_visits/",views.past_visits,name="past_visits"),
     path("play_sports/",views.play_sports,name="play_sports"),
     path("watch_sports/",views.watch_sports,name="watch_sports"),

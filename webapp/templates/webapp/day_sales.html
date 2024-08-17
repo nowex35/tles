@@ -1,8 +1,9 @@
 {% extends 'webapp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}チケット売り上げ | TLES{% endblock %}
 {% block content %}
-    <h2>チケット売り上げ</h2>
+    <h1 class="text-primary">チケット売り上げ</h1>
     <!-- フィルターボタン -->
     <div class="filter-options">
         <form method="get" action="{% url 'webapp:day_sales' %}">
@@ -19,7 +20,7 @@
             {% for path in graph_paths %}
                 <div class="image-item image-bar">
                     <img src="{{ path }}" alt="Day_Sales Graph">
-                    <a>{{ path }}</a>
+                    <a>{{ path|basename }}</a>
                 </div>
             {% endfor %}
         </div>

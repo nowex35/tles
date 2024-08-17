@@ -1,8 +1,9 @@
 {% extends 'webapp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}カテゴリー | TLES{% endblock %}
 {% block content %}
-    <h2>カテゴリー</h2>
+    <h1 class="text-primary">カテゴリー</h1>
     <!-- フィルターボタン -->
     <div class="filter-options">
         <form method="get" action="{% url 'webapp:category' %}">
@@ -20,7 +21,7 @@
             {% for path in graph_paths %}
                 <div class="image-item image-pie">
                     <img src="{{ path }}" alt="Category Graph">
-                    <a>{{ path }}</a>
+                    <a>{{ path|basename }}</a>
                 </div>
             {% endfor %}
         </div>

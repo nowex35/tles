@@ -11,20 +11,31 @@ import datetime
 from django.contrib.auth import login as auth_login
 from allauth.account.forms import LoginForm
 from django.urls import reverse
+import chardet
 
 from .models import Event,Existing_Data
 # Create your views here.
+import logging
+
+logger = logging.getLogger(__name__)
+
+import logging
+
+logger = logging.getLogger(__name__)
+
 def custom_login(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             user = form.user
+            logger.debug(f'User {user.username} authenticated successfully')
             auth_login(request, user)
-            # ログイン後のリダイレクト先を指定
-            return redirect('index')  # 'home'は適切なURLネームに変更してください
+            return redirect('webapp:index')
+        else:
+            logger.debug(f'Form errors: {form.errors}')  # エラーメッセージを出力
     else:
         form = LoginForm()
-    
+
     return render(request, 'accounts/login.html', {'form': form})
 
 def index(request):
@@ -108,6 +119,31 @@ def category(request):
         print("No category graphs found.")
 
     return render(request, 'webapp/category.html', {'graph_paths': category_graph_paths,"filter_option":filter_option})
+
+@login_required
+def age(request):
+    filter_option = request.GET.get('filter', 'all')
+    if filter_option == 'same_dates':
+        events = Event.objects.filter(game_date=models.F('data_version_date'))
+    else:
+        events = Event.objects.all()
+    media_root = settings.MEDIA_ROOT
+    media_url = settings.MEDIA_URL
+    age_graph_paths = []
+    
+    for root, dirs, files in os.walk(media_root):
+        for version_date in events.values_list('data_version_date', flat=True):
+            formatted_date = version_date.strftime('%y%m%d')
+            if ("result" in os.path.basename(root)) and (formatted_date in os.path.basename(root)):
+                for filename in files:
+                    if "Age" in filename:
+                        file_path = os.path.relpath(os.path.join(root, filename), media_root)
+                        age_graph_paths.append(os.path.join(media_url, file_path))
+
+    if not age_graph_paths:
+        print("No age graphs found.")
+
+    return render(request, 'webapp/age.html', {'graph_paths': age_graph_paths,"filter_option":filter_option})
 
 @login_required
 def gender(request):
@@ -292,14 +328,41 @@ def new_event(request):
         if form.is_valid() and event_form.is_valid():
             try:
                 csv_file = request.FILES['file']
-                file_path = os.path.join(settings.MEDIA_ROOT, "ticket_csv/", csv_file.name)
-                save_dir = os.path.dirname(file_path)
+        
+                # 一時ファイルに保存してから読み込む
+                temp_file_path = os.path.join(settings.MEDIA_ROOT, "temp", csv_file.name)
+                save_dir = os.path.dirname(temp_file_path)
                 os.makedirs(save_dir, exist_ok=True)
-                
-                with open(file_path, 'wb+') as destination:
+
+                with open(temp_file_path, 'wb+') as destination:
                     for chunk in csv_file.chunks():
                         destination.write(chunk)
-                
+
+                # エンコーディングを推測
+                with open(temp_file_path, 'rb') as f:
+                    raw_data = f.read(1024 * 1024)  # 最初の1MBをサンプルとして使用
+                    result = chardet.detect(raw_data)
+
+                if result['encoding'] and 'shift_jis' in result['encoding'].lower():
+                    # CSVファイルを読み込む (エンコーディングを指定)
+                    df = pd.read_csv(temp_file_path, encoding='shift_jis')
+
+                    # utf-8-sigでCSVファイルとして保存
+                    file_path = os.path.join(settings.MEDIA_ROOT, "ticket_csv/", csv_file.name)
+                    is_exist = os.path.exists(file_path)
+                    df.to_csv(file_path, encoding='utf-8-sig', index=False)
+
+                else:
+                    # そのままファイルを保存
+                    file_path = os.path.join(settings.MEDIA_ROOT, "ticket_csv/", csv_file.name)
+                    is_exist = os.path.exists(file_path)
+                    os.rename(temp_file_path, file_path)
+
+                # 不要になった一時ファイルを削除
+                if os.path.exists(temp_file_path):
+                    os.remove(temp_file_path)
+
+
                 preprocessing.preprocessing_for_app(file_path)
                 makeGraph.GraphForApp(file_path)
                 
@@ -308,7 +371,7 @@ def new_event(request):
                 data_preview = df.head()
                 
                 # ファイルが既に存在するか確認
-                if os.path.exists(file_path):
+                if is_exist:
                     return render(request, 'webapp/new_event.html', {
                         'form': form,
                         'event_form': event_form,

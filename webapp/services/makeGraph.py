@@ -22,7 +22,7 @@ def make_reasonsGraph(df_name,csv_Path):
     name,head,result_path = make_data_name(csv_Path)
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].fillna("").astype(str)
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"]
-    reasons_pattern = ["選手の知人","Instagram","家族・友人の紹介","X","LINE","前回のTL!で知った","ポスター","メディアの記事","コズミくん","通りすがり","前回から知っていた","コズミくんSNS","TL!SNS","スポーツ局SNS","コズミくんと会った","オープンキャンパス"]
+    reasons_pattern = ["選手の知人","Instagram","家族・友人の紹介","X","LINE","前回のTL!で知った","ポスター","メディアの記事","コズミくん","通りすがり","前回から知っていた","コズミくんSNS","TL!SNS","スポーツ局SNS","コズミくんと会った","オープンキャンパス","クリエイターからの紹介","チラシ","チームSNS","スポンサー企業SNS","スポンサー企業からの紹介"]
     reasons = []
     reasons_count = []
     total_responses = 0  # 全体の回答数を格納する変数
@@ -56,7 +56,7 @@ def make_reasonsPercentageGraph(df_name,csv_Path):
     name,head,result_path = make_data_name(csv_Path)
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].fillna("").astype(str)
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"]
-    reasons_pattern = ["選手の知人","Instagram","家族・友人の紹介","X","LINE","前回のTL!で知った","ポスター","メディアの記事","コズミくん","通りすがり","前回から知っていた","コズミくんSNS","TL!SNS","スポーツ局SNS","コズミくんと会った","オープンキャンパス"]
+    reasons_pattern = ["選手の知人","Instagram","家族・友人の紹介","X","LINE","前回のTL!で知った","ポスター","メディアの記事","コズミくん","通りすがり","前回から知っていた","コズミくんSNS","TL!SNS","スポーツ局SNS","コズミくんと会った","オープンキャンパス","クリエイターからの紹介","チラシ","チームSNS","スポンサー企業SNS","スポンサー企業からの紹介"]
     reasons = []
     reasons_count = []
     total_responses = 0  # 全体の回答数を格納する変数
@@ -540,6 +540,29 @@ def day_sales(df_name,csv_Path):
     plt.tight_layout()
     plt.savefig(os.path.join(result_path, head + "day_sales_count.png"), bbox_inches="tight")
     plt.close()
+    
+def make_AgeGraph(df_name,csv_Path):
+    name,head,result_path = make_data_name(csv_Path)
+    # カテゴリの出現回数を数える
+    Age_counts = df_name["年代"].value_counts()
+    # カテゴリーと色のマッピング
+    color_mapping = {
+        '18歳以下': '#1978B5',
+        '19&20代': '#FF8006',
+        '30代': '#9567BE',
+        '40代': '#D72223',
+        '50代': '#28A128',
+        '60代': '#8D554A',
+        '70代以上': '#808080'
+    }
+    colors = [color_mapping.get(category, 'white') for category in Age_counts.index]
+
+    # 円グラフを描画
+    plt.figure(figsize=(9,9))
+    plt.title(head+":年代ごとの割合")
+    plt.pie(x=Age_counts, labels=Age_counts.index,startangle=90, counterclock=False, autopct="%1.1f%%",labeldistance=1.2,textprops={'fontsize': 18},colors=colors)
+    plt.savefig(os.path.join(result_path, head + "Age.png"),bbox_inches="tight")
+    plt.close()
 
 def makeAll(df_1,df_f):
     make_reasonsGraph(df_1)
@@ -577,6 +600,8 @@ def makeAll(df_1,df_f):
         make_HowManyTimesGraph(df_1)
     if '購入日' in df_1.columns:
         day_sales(df_f)
+    if '年代' in df_1.columns:
+        make_AgeGraph(df_1)
     plt.close('all')
 
 def make_graph_for_app(only_Path,full_Path):
@@ -607,6 +632,8 @@ def make_graph_for_app(only_Path,full_Path):
                 make_TicketPrice_CouponBarGraph_onlyStudents(df_f,full_Path)
     if '性別' in df_1.columns:
         make_genderGraph(df_1,only_Path)
+    if '年代' in df_1.columns:
+        make_AgeGraph(df_1,only_Path)
 
 def make_data_name(csv_Path):
     name = os.path.basename(csv_Path)

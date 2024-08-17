@@ -63,6 +63,7 @@ def revise_Category_data(df_name):
         df_name["カテゴリー"] = df_name["カテゴリー"].str.replace("筑波大学教職員/Univ. of Tsukuba Faculty and Staff", "筑波大教職員")
         df_name["カテゴリー"] = df_name["カテゴリー"].str.replace("つくば市在住/ Residents of Tsukuba City", "つくば市在住")
         df_name["カテゴリー"] = df_name["カテゴリー"].str.replace("つくば市在勤/ Commute to Work in Tsukuba City", "つくば市在勤")
+        df_name["カテゴリー"] = df_name["カテゴリー"].str.replace("アルバータ大学関係者/University of Alberta associate", "アウェーチーム関係者")
     
 def revise_Grade_data(df_name):
     df_name["学年"] = df_name["学年"].str.replace("修士課程/Master's Course", "Master")
@@ -80,8 +81,11 @@ def revise_reasons_data(df_name):
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("家族・友人の紹介/from a friend", "家族・友人の紹介")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("家族・友人の紹介/ from a friend・family", "家族・友人の紹介")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("選手の知り合い/friend of player", "選手の知人")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("女子バレーボール部員の紹介/Introduction from the women's volleyball team", "選手の知人")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("TSUKUBA LIVE! 運営スタッフの紹介/Introduction from the TSUKUBA LIVE! organizing staff", "クリエイターからの紹介")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("メディアの記事を読んだ/from media", "メディアの記事")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("ポスター/poster", "ポスター")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("チラシ/Flyer", "チラシ")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("コズミくん/cosmicun", "コズミくん")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace(" SNS（コズミくん）/Cosmi-cun", "コズミくんSNS")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("SNS（コズミくん）/Cosmi-cun", "コズミくんSNS")
@@ -93,6 +97,13 @@ def revise_reasons_data(df_name):
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("今日オープンキャンパスで知った/Learned at today's Open Campus.", "オープンキャンパス")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace(" Twitter", "X")
     df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("Twitter", "X")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("X (TSUKUBA LIVE! 公式)", "X")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("Instagram (TSUKUBA LIVE! 公式)", "Instagram")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("LINE (TSUKUBA LIVE! 公式)", "LINE")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("筑波大学女子バレボール部 公式SNS/Univ. of Tsukuba Women's Volleyball Team Official SNS", "チームSNS")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("つくばユナイテッドSun GAIA 公式SNS/Tsukuba United Sun GAIA Official SNS", "スポンサー企業SNS")
+    df_name["知ったきっかけ"] = df_name["知ったきっかけ"].str.replace("つくばユナイテッドSun GAIA関係者の紹介/Introduction from Tsukuba United Sun GAIA", "スポンサー企業からの紹介")
+    
     
     
 def revise_sports_watch_data(df_name):
@@ -165,6 +176,25 @@ def additional_revise(df_name):
         df_name["来場回数"] = df_name["来場回数"].str.replace("1月2日","1~2回")
         df_name["来場回数"] = df_name["来場回数"].str.replace("3月4日","3~4回")
         df_name["来場回数"] = df_name["来場回数"].str.replace("5月6日","5~6回")
+    
+def revise_age_data(df_name):
+    if "年代" in df_name.columns:
+        df_name["年代"] = df_name["年代"].str.replace("10 - 19歳", "18歳以下")
+        df_name["年代"] = df_name["年代"].str.replace("10代", "18歳以下")
+        df_name["年代"] = df_name["年代"].str.replace("18歳以下/Under18", "18歳以下")
+        df_name["年代"] = df_name["年代"].str.replace("20 - 29歳", "19&20代")
+        df_name["年代"] = df_name["年代"].str.replace("20代", "19&20代")
+        df_name["年代"] = df_name["年代"].str.replace("19歳・20代/19 - 20s", "19&20代")
+        df_name["年代"] = df_name["年代"].str.replace("30 - 39歳", "30代")
+        df_name["年代"] = df_name["年代"].str.replace("30代/30s", "30代")
+        df_name["年代"] = df_name["年代"].str.replace("40 - 49歳", "40代")
+        df_name["年代"] = df_name["年代"].str.replace("40代/40s", "40代")
+        df_name["年代"] = df_name["年代"].str.replace("50 - 59歳", "50代")
+        df_name["年代"] = df_name["年代"].str.replace("50代/50s", "50代")
+        df_name["年代"] = df_name["年代"].str.replace("60 - 69歳", "60代")
+        df_name["年代"] = df_name["年代"].str.replace("60代/60s", "60代")
+        df_name["年代"] = df_name["年代"].str.replace("70 歳以上", "60代以上")
+        df_name["年代"] = df_name["年代"].str.replace("70代以上/70 and over", "60代以上")
 
 def full_revise(df_name):
     revise_price_data(df_name)
@@ -176,6 +206,7 @@ def full_revise(df_name):
     revise_reasons_data(df_name)
     revise_sports_watch_data(df_name)
     revise_sports_play_data(df_name)
+    revise_age_data(df_name)
 
 # データフレームの操作
 def allpreprocessing(df_name,csv_path):

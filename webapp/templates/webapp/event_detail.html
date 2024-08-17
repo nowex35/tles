@@ -1,6 +1,6 @@
 {% extends "webapp/base.html" %}
 {% load static %}
-
+{% load custom_filters %}
 {% block title %}試合詳細{% endblock %}
 
 {% block active_event_list %}active{% endblock %}
@@ -50,7 +50,7 @@
                     {% if "day_sales" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -66,7 +66,7 @@
                     {% if "grade" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -82,7 +82,7 @@
                     {% if "category" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -98,7 +98,7 @@
                     {% if "PastVisits" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -114,7 +114,7 @@
                     {% if "playSports" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -130,7 +130,7 @@
                     {% if "watchSports" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -146,7 +146,7 @@
                     {% if "reasons" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -162,7 +162,7 @@
                     {% if "Ticket" in path %}
                         <div class="image-item-inDetail">
                             <img src="{{ path }}" alt="This Event Graph">
-                            <a>{{ path }}</a>
+                            <a>{{ path|basename }}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -178,7 +178,7 @@
                 {% if not "day_sales" in path and not "grade" in path and not "category" in path and not "PastVisits" in path and not "playSports" in path and not "watchSports" in path and not "reasons" in path and not "Ticket" in path %}
                     <div class="image-item-inDetail">
                         <img src="{{ path }}" alt="This Event Graph">
-                        <a>{{ path }}</a>
+                        <a>{{ path|basename }}</a>
                     </div>
                 {% endif %}
             {% endfor %}

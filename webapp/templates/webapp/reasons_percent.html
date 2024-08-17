@@ -1,7 +1,9 @@
 {% extends 'webapp/base.html' %}
-{% load static %}{% block title %}流入経路割合 | TLES{% endblock %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}流入経路割合 | TLES{% endblock %}
 {% block content %}
-    <h2>流入経路割合</h2>
+    <h1 class="text-primary">流入経路割合</h1>
     <!-- フィルターボタン -->
     <div class="filter-options">
         <form method="get" action="{% url 'webapp:reasons_percent' %}">
@@ -18,7 +20,7 @@
             {% for path in graph_paths %}
                 <div class="image-item image-bar">
                     <img src="{{ path }}" alt="reasons Graph">
-                    <a>{{ path }}</a>
+                    <a>{{ path|basename }}</a>
                 </div>
             {% endfor %}
         </div>

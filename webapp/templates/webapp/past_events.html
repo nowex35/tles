@@ -3,7 +3,7 @@
 {% block title %}過去のイベント | TLES{% endblock %}
 {% block content %}
   <div>
-    <h1 class="text-primary">Past Events</h1>
+    <h1 class="text-primary">過去のイベント</h1>
     <div class="event_container">
       {% for event in page_obj.object_list %}
       <div class="event">
@@ -16,6 +16,7 @@
             <p>Time: {{ event.opening_time }}</p>
             <p>Location: {{ event.event_place }}</p>
             <p>spectators: {{ event.number_of_spectators }}人</p>
+            <p>data_version: {{ event.data_version_date }}</p>
           </div>
         </a>
       </div>

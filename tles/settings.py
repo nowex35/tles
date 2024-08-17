@@ -182,7 +182,7 @@ LOGGING = {
         # Djangoが利用するロガー
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG', # INFOからDEBUGに変更
+            'level': 'INFO', # INFOからDEBUGに変更
         },
         # diaryアプリケーションが利用するロガー
         'webapp': {

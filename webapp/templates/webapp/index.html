@@ -1,7 +1,13 @@
 {% extends 'webapp/base.html' %}
 {% block title %}ホーム | TLES{% endblock %}
 {% block content %}
-  <h1 class="bg-primary text-white">
-    ログイン後、データにアクセス可能です。
+  {% if user.is_authenticated %}
+  <h1 class="text-primary">
+    ログイン済<br>データにアクセス可能です。
   </h1>
+  {% else %}
+  <h1 class="text-primary">
+    ログイン後、データにアクセス可能です。<br>ログインしてださい。
+  </h1>
+  {% endif %}
 {% endblock content %}

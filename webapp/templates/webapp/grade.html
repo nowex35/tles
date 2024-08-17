@@ -1,8 +1,9 @@
 {% extends 'webapp/base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}学年 | TLES{% endblock %}
 {% block content %}
-    <h2>学年</h2>
+    <h1 class="text-primary">学年</h1>
     <!-- フィルターボタン -->
     <div class="filter-options">
         <form method="get" action="{% url 'webapp:grade' %}">
@@ -19,7 +20,7 @@
             {% for path in graph_paths %}
                 <div class="image-item image-pie">
                     <img src="{{ path }}" alt="Grade Graph">
-                    <a>{{ path }}</a>
+                    <a>{{ path|basename }}</a>
                 </div>
             {% endfor %}
         </div>
